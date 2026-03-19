@@ -18,5 +18,5 @@ The primary goal of this lab is to move away from a "Flat Network" and implement
 | 20       | Guest      | Visitors / Untrusted             | Internet Only                      |
 | 30       | Server     | Shared Services / Security Stack | Stateful Service / Restricted Push |
 | 40       | IoT        | Cameras / Smart Home             | No LAN / Restricted WAN            |
-| 50       | Sandbox    | Malware Lab / Research           | No LAN / Prxied Egress             |
+| 50       | Sandbox    | Malware Lab / Research           | No LAN / Proxied Egress            |
 | 60       | Management | Local Out-of-Band Administration | Inbound Only / No WAN              |
