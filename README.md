@@ -12,11 +12,11 @@ The primary goal of this lab is to move away from a "Flat Network" and implement
   - **Network:** Dual-port Intel i350-AM2 PCIe NIC
 - **Architecture Diagram:** High-level Logical Topology created in Draw.io
 ## Planned Network Segments
-| VLAN ID  | Name       | Purpose                      | Access Level                          |
-|----------|------------|------------------------------|---------------------------------------|
-| 10       | Main       | Personal Devices             | Full Access                           |
-| 20       | Guest      | Visitors / Untrusted Mobile  | Internet Only                         |
-| 30       | Server     | Network Monitoring / Storage | Restricted / Intra-VLAN Only          |
-| 40       | IoT        | Smart Home / Cameras         | Isolated / No WAN                     |
-| 50       | Sandbox    | Malware Lab / Research       | Strict Kill-Switch / No Local Access  |
-| 60       | Management | Out-of-Band Administration   | Locked / Administrative Only (No WAN) |
+| VLAN ID  | Name       | Purpose                          | Access Level                       |
+|----------|------------|----------------------------------|------------------------------------|
+| 10       | Main       | Trusted Personal Devices         | Full Access                        |
+| 20       | Guest      | Visitors / Untrusted             | Internet Only                      |
+| 30       | Server     | Shared Services / Security Stack | Stateful Service / Restricted Push |
+| 40       | IoT        | Cameras / Smart Home             | No LAN / Restricted WAN            |
+| 50       | Sandbox    | Malware Lab / Research           | No LAN / Prxied Egress             |
+| 60       | Management | Local Out-of-Band Administration | Inbound Only / No WAN              |
