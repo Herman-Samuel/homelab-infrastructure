@@ -1,22 +1,4 @@
-# **Project Objectives**
-The primary goal of this lab is to move away from a "Flat Network" and implement a hardened infrastructure that balances daily productivity with a high-risk research environment.
+# **Project Overview: Enterprise-Grade Home Lab Hardening & Network Refactor**
+This project represents a comprehensive security refactor of a home network, moving from a standard "flat" configuration to a hardened infrastructure utilizing a custom-built OPNsense router. By repurposing an HP t620 Plus thin client and equipping it with an Intel i350-AM2 dual-port NIC, the architecture provides professional-grade features like AES-NI hardware encryption and stable, high-throughput routing. The primary technical goal is the implementation of 802.1Q VLAN tagging to logically segment the network into multiple distinct zones. This includes dedicated segments for IoT devices, Malware Sandboxing, and Network Management, enforcing a "Default Deny" firewall policy to prevent lateral movement and ensure a Zero Trust posture. The new infrastructure will facilitate granular East-West traffic filtering and establish a dedicated Out-of-Band (OOB) management plane.
 
-- **Network Isolation:** Utilize 802.1Q VLAN tagging to physically and logically separate trusted traffic from untrusted IoT devices and high-risk research segments.
-- **Security Posture:** Implementation of a "Default Deny" firewall policy between VLANs to prevent lateral movement (Zero Trust).
-- **Packet Analysis:** Establish a mirror port to facilitate Deep Packet Inspection (DPI) via Wireshark and forward telemetry to a centralized SIEM (Splunk) for long-term behavioral analysis and alerting.
-- **Hardware Efficiency:** Repurpose x86-64 hardware into a high-performance OPNsense router and firewall. Hand selected components, considering security, reliability, speed, and price.
-  - **Chassis:** HP t620 Plus (Thin Client)
-  - **CPU:** AMD GX-420CA 2.0GHz Quad-Core
-  - **Memory:** 8GB DDR3 RAM
-  - **Storage:** 128GB SanDisk X400 M.2 SATA SSD
-  - **Network:** Dual-port Intel i350-AM2 PCIe NIC
-- **Architecture Diagram:** High-level Logical Topology created in Draw.io
-## Planned Network Segments
-| VLAN ID  | Name       | Purpose                          | Access Level                       |
-|----------|------------|----------------------------------|------------------------------------|
-| 10       | Main       | Trusted Personal Devices         | Full Access                        |
-| 20       | Guest      | Visitors / Untrusted             | Internet Only                      |
-| 30       | Server     | Shared Services / Security Stack | Stateful Service / Restricted Push |
-| 40       | IoT        | Cameras / Smart Home             | No LAN / Restricted WAN            |
-| 50       | Sandbox    | Malware Lab / Research           | No LAN / Proxied Egress            |
-| 60       | Management | Local Out-of-Band Administration | Inbound Only / No WAN              |
+Beyond the physical implementation, the project emphasizes enterprise-level governance and deep security visibility. The lab will integrate a robust telemetry pipeline using a Raspberry Pi-based security stack, utilizing Syslog and NetFlow aggregation to stream network telemetry to a centralized Splunk instance for long-term behavioral analysis. This technical work will be supported by a rigorous Change Management process, featuring formal documentation of baselines and risk assessments, as well as video demonstrations of firewall validation through inter-VLAN ping audits. Ultimately, the lab will serve as a stable, high-speed backbone for home operations and a strictly isolated, monitored sandbox for malware analysis and security research.
