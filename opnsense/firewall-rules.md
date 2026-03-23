@@ -55,5 +55,6 @@
 | **IoT_Net**          | Any               | Any                | **BLOCK**  | Explicit block; to log packets handled by this rule.                                    |
 | **Sandbox_Net**      | OPNsense_IP       | Sandbox_Services   | **ALLOW**  | No LAN, proxied & monitored WAN access                                                  |
 | **Sandbox_Net**      | Any               | Any                | **BLOCK**  | Explicit block; to log packets handled by this rule.                                    |
-| **MGMT_Net**         | Any               | Any                | **REJECT** | The Vault Lock: No Outbound/WAN                                                         |
+| **MGMT_Net**         | Any               | Any                | **REJECT** | The Vault Lock: No Outbound/WAN                                  
+
 Note: Rules are applied in top-down priority; specific inter-VLAN restrictions are placed above general WAN egress rules
