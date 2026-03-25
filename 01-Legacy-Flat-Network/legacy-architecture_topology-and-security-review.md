@@ -1,6 +1,6 @@
 # Explanation of the Legacy Architecture Diagram
 **This document goes into detail of the diagram showing how my network is currently configured, including some of the security concerns (shown in red)**
-**To see the diagram described in this document, [click here](https://github.com/Herman-Samuel/homelab-infrastructure/blob/main/architecture/legacy-architecture-diagram.png)
+**To see the diagram described in this document, [click here](https://github.com/Herman-Samuel/homelab-infrastructure/blob/main/01-Legacy-Flat-Network/legacy-architecture-diagram.png)
 
 - The title, "Legacy Architecture: Flat Network Model", gives clear emphasis that this diagram is about the old network architecture, which is just a flat network.
 - Under the title is the subtitle, "Categorized by Physical Layer (L1) / Non-Segmented". This explains that the end devices shown in the diagram are categorized by the OSI Layer 1, the Physical Layer. The four colored boxes at the bottom of the diagram the way each device accesses the internet (Wi-Fi 5GHz, Wired 2.5GbE, etc.), not any sort of segmentation.
