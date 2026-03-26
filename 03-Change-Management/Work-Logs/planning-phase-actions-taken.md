@@ -87,7 +87,7 @@
 - Uploaded the following documents to Github branch and merged to main:
 	- hardened-architecture-diagram.png, under Hardened Segmented Design
 	- hardened-architecture-topology-review.md, under Hardened Segmented Design
-- Delivered a formal [Request for Change (RFC) Presentation](https://github.com/Herman-Samuel/homelab-infrastructure/blob/main/03-Change-Management/request-for-change-01-presentation.mp4), modeled as a live executive briefing, which successfully secured project approval and a $290 budget by translating complex technical risks (Lateral Movement, Visibility Gaps) into clear household benefits and providing a user-friendly Emergency Operations Manual to ensure long-term system reliability. Videoed presentation to be uploaded onto GitHub.
+- Delivered a formal [Request for Change (RFC) Presentation](https://youtu.be/W24WhC4zqCA), modeled as a live executive briefing, which successfully secured project approval and a $290 budget by translating complex technical risks (Lateral Movement, Visibility Gaps) into clear household benefits and providing a user-friendly Emergency Operations Manual to ensure long-term system reliability. Videoed presentation to be uploaded onto GitHub.
 - Edited RFC Presentation video to smoothly transition from the intro, to the GitHub screen recording, then to the closing.
 - Completed the Planning Phase. Successfully consolidated architectural blueprints, risk-mitigation logic, and change implementation plans into a project roadmap. Verified all documentation, including the Gap Analysis, RFC, Topology Reviews, and Emergency Manual, for Portfolio Audience review.
 - Updated my Portfolio Website's "Projects" page with a link to this projects GitHub. [Portfolio Website](https://samuelrherman.com/) 
