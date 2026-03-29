@@ -3,7 +3,7 @@ This project represents a comprehensive security refactor of a home network, mov
 
 Beyond the physical implementation, the project emphasizes enterprise-level governance and deep security visibility. The lab will integrate a robust telemetry pipeline using a Raspberry Pi-based security stack, utilizing Syslog and NetFlow aggregation to stream network telemetry to a centralized Splunk instance for long-term behavioral analysis. This technical work will be supported by a rigorous Change Management process, featuring formal documentation of baselines and risk assessments, as well as video demonstrations of firewall validation through inter-VLAN ping audits. Ultimately, the lab will serve as a stable, high-speed backbone for home operations and a strictly isolated, monitored sandbox for malware analysis and security research.
 
-Analogy "For Dummies" (Non-technical)
+#### Analogy "For Dummies" (Non-technical)
 Right now, my home internet is like a giant studio apartment with no internal walls. The front door is locked, but once someone is inside, they have a key to every drawer, the safe, and the jewelry box. If a 'smart' lightbulb or a cheap security camera gets hacked, the hacker is standing in the middle of the room with our sensitive information.
 
 My project is like remodeling that studio into a secure mansion. VLANs (The Walls): I’m building solid walls and locking the doors between the 'public' areas (like the Guest Wi-Fi or the TV) and our 'private' areas (like my computer and mobile phone).
