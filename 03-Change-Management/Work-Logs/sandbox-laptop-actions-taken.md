@@ -1,0 +1,75 @@
+#### 29 March 2026
+- Researched several Linux distributions to install and run on my dell laptop that I will be using on the Sandbox VLAN. I decided on Lubuntu because it is lightweight and should be fast on the older hardware.
+- Downloaded Lubuntu from the official website.
+- From Command Prompt I verified the files hash using "certutil -hashfile" and compared it to what it should be.
+- Using Rufus, I flashed the Lubuntu .iso file to a USB drive, meticulously researching every option.
+- Attempted to boot the Dell laptop with the USB, but the USB was not showing in the boot menu.
+- Clicked the "Change Boot Mode Settings" option, then accidently selected the first option. It gave me a message asking if I was sure, I clicked 'no' since clicking it was a mistake. Instead of going back to the settings like I thought, the screen went black, then loaded into the screen to install Lubuntu. I believe that I inadvertently triggered a soft reset, and the computer recognized the device after.
+- Created the following partitions
+	- EFI system: 300 MiB
+		- File System: FAT32
+	- Swap: 4 GiB
+		- File System: swap area
+	- Root: 50 GiB
+		- File System: Ext4
+		- Set up encryption
+	- Home: 878 GiB
+		- File System: Ext4
+		- Set up encryption
+- Attempted the install, but after the laptop restarted it went to a terminal with the prompt "grub>".
+- Tried re-running the installer with specifying the bootloader location, but then the laptop could not see the USB drive again. Instead "Ubuntu" shows in the boot menu, implying that the Lubuntu installation was partially successful.
+#### 30 March 2026
+- Searched through all of the settings I could find and researched the issue.
+- Tried switching to legacy boot mode, including re-flashing the USB drive, switching to legacy boot on the laptop, and went into the one time boot menu. I saw the USB drive under here and clicked it. The laptop started an infinite loop of; starting, displaying 'dell', displaying 'GRUB loading. WELCOME TO GRUB!' for a split second, then restarts.
+- Tried re-flashing the USB in legacy mode again, but with balenaEtcher instead of Rufus. It showed a blue screen saying 'Lubuntu' for awhile then went to the Lubuntu installer.
+- To try to avoid the same issue with grub, I added a 'bios-grub' partition. This is a small, unformatted partition with the bios-grub flag enabled. This should act as the bridge the installation needs to boot in legacy mode.
+- Attempted the installation again but got a stream of errors. When I restarted and went back to the boot menu, there were no boot options there.
+- Tried adding a boot option manually, pointing it to the Lubuntu file installed on the EFI partition.
+- Restarted the laptop, hoping it would now boot to the manual entry I added. Instead I got a dell support assist screen running a system scan to detect any potential hardware problems. After that finished, it said there are no bootable devices.
+#### 1 April 2026
+- Using the terminal, I renamed the Lubuntu boot file to the standard, default fallback name that every UEFI system is programmed to look for when no other boot entry exists. I ran the command "sudo fdisk -l" to list the partitions on my internal drive in order to find out which one is the EFI partition. Mounted the EFI partition, navigated to the boot directory, created the standard fallback directory, then ATTEMPTED to copy the Lubuntu bootloader to the fallback location.
+- I got an error stating that there was no space left on device. Used Gparted to check my partition sizes, which showed the EFI partition to be 300 MiB, which should be enough. However while in Gparted, I saw the EFI partition had a yellow triangle with an exclamation point, which indicates a problem with the partitions state.
+- Next I tried fixing the EFI partition header. I unmounted the partition and ran a command to run the file system check and repair utility. I then deleted and re-created the 'bios-grub' partition within GParted, making sure to set the bios-grub flag.
+- Re-ran the installer and got a new error, "Failed to unpack image '/cdrom/casper/filesystem.squashfs" with "rsync failed with error code 11". This is likely a corrupted USB drive or ISO file.
+- Verified the hash of the original Lubuntu ISO file on my my computer just in case, it matched the hash from their website, meaning this file is not corrupted.
+- Next I looked into the USB drive possibly being corrupted. The USB drive is 128 GB. I didn't realize this could cause issues, so I went and got a 16 GB USB drive.
+- Flashed the new USB drive with Balena Etcher, plugged it in, went to the one time boot screen, then "Install Lubuntu".
+- I then let it install in legacy mode, then it automatically took me to the USB Lubuntu live environment. Next I restarted the laptop and pressed F2 to go into the BIOS settings. I switched from legacy to UEFI and restarted, as research I did online said I should switch it back from legacy mode after the install. When the laptop came back on it did the same hardware check, then said there was no bootable drive, again. I restarted again and went into the one time boot, clicked Lubuntu, same thing.
+- I went into the BIOS settings and switched it back to legacy mode, but ran into another error saying the system could not find the encrypted partition (my root partition).
+#### 3 April 2026
+- Started the laptop up and went into the one time boot menu, then the USB drive, then "Try Lubuntu". I did this to get to the terminal.
+- Ran the command the command "sudo fdisk -l" to confirm the name of my encrypted root partition.
+- Ran the command "sudo cryptsetup luksOpen /dev/sda3 sda_crypt" to try to unlock the LUKS encrypted partition. I was prompted for a password and got it wrong every time I tried. I realized I must have mistyped it when creating the partition. Since I'm still installing and there's no data on the partitions, the easiest way to solve this is to wipe everything and re-create them.
+- Ran the command "sudo cryptsetup luksOpen /dev/sda3 sda_crypt" to try to unlock the LUKS encrypted partition. I was prompted for a password and got it wrong every time I tried. I realized I must have mistyped it when creating the partition. Since I'm still installing and there's no data on the partitions, the easiest way to solve this is to wipe everything and re-create them.
+- To wipe the existing partition table I:
+	- Opened gparted, selected device, and tried to select Create Partition Table. A message came saying there was a partition in use and I would have to deactivate it first. I saw the swap file had a key symbol next to it meaning it was in use. I right clicked it and clicked swapoff, then was able to click Create Partition Table.
+	- Under "Select new partition table type" I selected gpt, then clicked apply. This successfully wiped the partition table and all storage on the drive became unallocated.
+- Restarted the laptop, going back to the one time boot menu > USB drive > Install Lubuntu
+- Re-created the partitions as I had them before, carefully inspecting every option. The partitions I created are: ESP, SWAP, ROOT, BIOSGRUB, and HOME.
+- Ran the installer, restarted, removed the USB installer as prompted, and pressed enter. I was prompted to enter my password, but after doing so I got some errors and it entered rescue mode with the prompt "grub rescue>".
+- Booted back into the USB live environment and opened the terminal, to try to fix a potential sync issue between the GRUB bootloader and the 'initramfs' crypto-modules.
+- Again ran the command "sudo cryptsetup luksOpen /dev/sda3 sda_crypt" and entered my password (which was accepted this time). This unlocked my partition.
+- Ran the command "sudo mount /dev/mapper/sda3_crypt /mnt" to mount the root partition.
+- Ran the command "cat /mnt/etc/crypttab" to check the /etc/crypttab file. Looks like the installer is using a non-standard naming convention that doesn't match the traditional manual mapping I was trying to do. Instead of "sda3_crypt", my system is looking for a UUID that starts with "luks".
+- With this information, I started the repair steps again. First by unmounting what I did earlier in order to start over using the names the system already recognizes
+	- Ran the commands "sudo umount /mnt/boot/efi", "sudo umount /mnt", and "sudo cryptsetup luksClose sda3_crypt"
+- Ran the command "sudo cryptsetup luksOpen /dev/sda3 luks-bb02ff21-907e-4bae-a52f-0c20eb6f4770" to unlock the root partition.
+- Ran 'mount --bind' to bridge host hardware interfaces ('/dev', '/proc', '/sys') to the decrypted root volume; executed 'chroot' to pivot the terminal context into the installed OS environment for internal configuration updates.
+- Ran 'update-initramfs' to bake LUKS crypto-modules into the boot image. This successfully generated a new boot image.
+- Ran 'update-grub' and 'grub-install' to finalize the Legacy-BIOS MBR link and register the unique volume UUIDs for automated decryption prompts at startup. The scan correctly identified my Linux image and the matching 'initrd' image. It also added a boot menu entry for the UEFI firmware settings, which confirms it sees the partition structure clearly. Wrote the legacy/ BIOS boot code to the GPT drive.
+- Exited the Chroot environment, and unmounted everything.
+- Rebooted the laptop, removed the USB drive when prompted, and hit enter.
+- Ran into the exact same issue again where GRUB does not think I have the right password. Since I tried the other steps to fix this, I decided to compromise, removing the encryption from the root partition. I also decided to add encryption to the swap partition to protect RAM spillover.
+- I went back into the USB "Install Lubuntu". I deleted and re-created both the root and swap partitions, removing encryption from root and adding encryption to swap.
+- Ran the installer, restarted, removed the USB drive when prompted, and hit enter to continue.
+- The laptop loaded to a blue screen asking for my passphrase to unlock the swap partition, however no matter what I tried there was no response, the screen was frozen.
+- Restarted and hit the 'Esc' key to get to the Lubuntu advanced options. Selected Ubuntu and was taken to a different blue screen asking for my passphrase for the swap partition. I was able to interact with this screen and it accepted my password, taking me to the user login screen. The user login screen also accepted my password, and opened to the Lubuntu Desktop.
+- I finally successfully installed Lubuntu on my old Dell laptop!
+#### 4 April 2026
+- I'm glad I can get to the Lubuntu Desktop, however I don't want the only way to get there to be by holding the 'Esc' key. The hold 'Esc' method works because it bypasses the graphical splash screen that is freezing, forcing the system to show the underlying text. In order to make the text screen the default, I did the following.
+	- Logged back in and opened terminal
+	- Ran the command "sudo nano /etc/default/grub" to edit the GRUB configuration.
+	- Found the line that said "GRUB_CMDLINE_LINUX_DEFAULT=", and replaced the words "quiet splash" with "nomodeset", leaving the reset of the line alone ("resume=..."). This disables the graphical splash screen to ensure reliable passphrase entry on every boot through the text screen.
+	- Saved changes and exited the file
+	- Ran the command "sudo update-grub" to fix the bootloader.
+- Tested my fix by rebooting, then by shutting it down completely and turning it back on. Booting the laptop works perfect now, with no need to press a certain button.
