@@ -81,4 +81,5 @@
 | **Management** | MGMT_Net        | Any               | Web_Ports          | **ALLOW**  | Allows Management to access web ports                                                           |
 | **Management** | MGMT_Net        | Rasp_Pi           | 5514               | **ALLOW**  | Allow UniFi Devices to send logs to controller                                                  |
 | **Management** | MGMT_Net        | Any               | Any                | **REJECT** | Explicitly reject all traffic to log packets handled by this rule                               |
+
 Note: Rules are separated in OPNsense by interface, and within each interface they are applied in top-down priority; specific inter-VLAN restrictions are placed above general WAN egress rules. 
