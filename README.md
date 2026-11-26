@@ -14,7 +14,7 @@ The network is divided into six VLANs using 802.1Q tagging: Main (10), Guest (20
 | Managed switch (802.1Q trunk and access ports) and UniFi access point with SSID-to-VLAN mapping | Complete |
 | Default-deny firewall rules and ping-audit validation | Complete |
 | Change-management documentation | Complete, updated as changes are made |
-| Log monitoring (Grafana, Loki, Promtail) | In progress |
+| Log monitoring (Grafana, Loki, Gradana Alloy) | In progress |
 | Sandbox web proxy (Squid) | In progress |
 
 ## Governance and validation
@@ -25,7 +25,7 @@ I validated the firewall policy with [recorded ping audits](https://youtu.be/UID
 
 ## Monitoring (in progress)
 
-A Raspberry Pi on the Server VLAN hosts the self-hosted UniFi controller and is being built into a log-monitoring stack using Grafana, Loki, and Promtail in Docker. I originally planned to use Splunk, but Splunk Enterprise does not run on the Pi's ARM processor, so I switched to a lighter stack.
+A Raspberry Pi on the Server VLAN hosts the self-hosted UniFi controller and is being built into a log-monitoring stack using Grafana, Loki, and Gradana Alloy in Docker. I originally planned to use Splunk, but Splunk Enterprise does not run on the Pi's ARM processor, so I switched to a lighter stack.
 
 ## Purpose
 
